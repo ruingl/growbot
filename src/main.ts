@@ -1,6 +1,6 @@
 import { Client, GatewayIntentBits } from 'discord.js';
 import * as api from './api';
-import { log } from './log';
+import * as log from './log';
 import 'dotenv';
 
 const client = new Client({

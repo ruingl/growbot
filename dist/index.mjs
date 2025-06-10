@@ -1,35 +1,17 @@
 // src/log.ts
 import chalk from "chalk";
-var log = {
-  /**
-   * Logs info messages to console.
-   * @param args - Values to log.
-   */
-  info: (...args) => {
-    console.info(chalk.blue("[INFO] ", ...args));
-  },
-  /**
-   * Logs error messages to console.
-   * @param args - Values to log.
-   */
-  error: (...args) => {
-    console.error(chalk.red("[ERROR] ", ...args));
-  },
-  /**
-   * Logs warning messages to console.
-   * @param args - Values to log.
-   */
-  warn: (...args) => {
-    console.warn(chalk.yellow("[WARN] ", ...args));
-  },
-  /**
-   * Logs messages to console.
-   * @param args - Values to log.
-   */
-  log: (...args) => {
-    console.log(chalk.grey("[LOG] ", ...args));
-  }
-};
+function info(...args) {
+  console.info(chalk.blue("[INFO] ", ...args));
+}
+function error(...args) {
+  console.error(chalk.red("[ERROR] ", ...args));
+}
+function warn(...args) {
+  console.warn(chalk.yellow("[WARN] ", ...args));
+}
+function log(...args) {
+  console.log(chalk.grey("[LOG] ", ...args));
+}
 
 // src/api.ts
 import axios from "axios";
@@ -42,11 +24,11 @@ async function stock() {
     } else {
       return new Error("Failed to get stock...");
     }
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      return new Error(`AxiosError: ${error}`);
+  } catch (error2) {
+    if (axios.isAxiosError(error2)) {
+      return new Error(`AxiosError: ${error2}`);
     } else {
-      return new Error(`Error: ${error}`);
+      return new Error(`Error: ${error2}`);
     }
   }
 }
@@ -63,7 +45,7 @@ var client = new Client({
 });
 client.once("ready", () => {
   var _a;
-  log.info("Logged in as: ", (_a = client.user) == null ? void 0 : _a.tag);
+  info("Logged in as: ", (_a = client.user) == null ? void 0 : _a.tag);
 });
 client.on("messageCreate", async (message) => {
   if (message.author.bot) return;
@@ -72,18 +54,21 @@ client.on("messageCreate", async (message) => {
       const stock2 = await stock();
       if (stock2 instanceof Error) {
         message.reply("Can't get stock...");
-        log.error(stock2);
+        error(stock2);
       } else {
         message.reply(stock2.seeds.join("\n"));
       }
-    } catch (error) {
+    } catch (error2) {
       message.reply("Can't get stock...");
-      log.error(error);
+      error(error2);
     }
   }
 });
 client.login(process.env.BOT_TOKEN);
 export {
+  error,
+  info,
   log,
-  stock
+  stock,
+  warn
 };

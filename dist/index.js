@@ -30,43 +30,28 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // src/index.ts
 var index_exports = {};
 __export(index_exports, {
+  error: () => error,
+  info: () => info,
   log: () => log,
-  stock: () => stock
+  stock: () => stock,
+  warn: () => warn
 });
 module.exports = __toCommonJS(index_exports);
 
 // src/log.ts
 var import_chalk = __toESM(require("chalk"));
-var log = {
-  /**
-   * Logs info messages to console.
-   * @param args - Values to log.
-   */
-  info: (...args) => {
-    console.info(import_chalk.default.blue("[INFO] ", ...args));
-  },
-  /**
-   * Logs error messages to console.
-   * @param args - Values to log.
-   */
-  error: (...args) => {
-    console.error(import_chalk.default.red("[ERROR] ", ...args));
-  },
-  /**
-   * Logs warning messages to console.
-   * @param args - Values to log.
-   */
-  warn: (...args) => {
-    console.warn(import_chalk.default.yellow("[WARN] ", ...args));
-  },
-  /**
-   * Logs messages to console.
-   * @param args - Values to log.
-   */
-  log: (...args) => {
-    console.log(import_chalk.default.grey("[LOG] ", ...args));
-  }
-};
+function info(...args) {
+  console.info(import_chalk.default.blue("[INFO] ", ...args));
+}
+function error(...args) {
+  console.error(import_chalk.default.red("[ERROR] ", ...args));
+}
+function warn(...args) {
+  console.warn(import_chalk.default.yellow("[WARN] ", ...args));
+}
+function log(...args) {
+  console.log(import_chalk.default.grey("[LOG] ", ...args));
+}
 
 // src/api.ts
 var import_axios = __toESM(require("axios"));
@@ -79,11 +64,11 @@ async function stock() {
     } else {
       return new Error("Failed to get stock...");
     }
-  } catch (error) {
-    if (import_axios.default.isAxiosError(error)) {
-      return new Error(`AxiosError: ${error}`);
+  } catch (error2) {
+    if (import_axios.default.isAxiosError(error2)) {
+      return new Error(`AxiosError: ${error2}`);
     } else {
-      return new Error(`Error: ${error}`);
+      return new Error(`Error: ${error2}`);
     }
   }
 }
@@ -100,7 +85,7 @@ var client = new import_discord.Client({
 });
 client.once("ready", () => {
   var _a;
-  log.info("Logged in as: ", (_a = client.user) == null ? void 0 : _a.tag);
+  info("Logged in as: ", (_a = client.user) == null ? void 0 : _a.tag);
 });
 client.on("messageCreate", async (message) => {
   if (message.author.bot) return;
@@ -109,19 +94,22 @@ client.on("messageCreate", async (message) => {
       const stock2 = await stock();
       if (stock2 instanceof Error) {
         message.reply("Can't get stock...");
-        log.error(stock2);
+        error(stock2);
       } else {
         message.reply(stock2.seeds.join("\n"));
       }
-    } catch (error) {
+    } catch (error2) {
       message.reply("Can't get stock...");
-      log.error(error);
+      error(error2);
     }
   }
 });
 client.login(process.env.BOT_TOKEN);
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  error,
+  info,
   log,
-  stock
+  stock,
+  warn
 });

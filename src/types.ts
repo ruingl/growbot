@@ -1,10 +1,4 @@
 /**
- * Represents a logging function.
- * @template T - A tuple type representing the argument types.
- */
-export type LogFn<T extends unknown[]> = (...args: T) => void;
-
-/**
  * Returned stock.
  */
 export interface Stock {

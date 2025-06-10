@@ -1,9 +1,4 @@
 /**
- * Represents a logging function.
- * @template T - A tuple type representing the argument types.
- */
-type LogFn<T extends unknown[]> = (...args: T) => void;
-/**
  * Returned stock.
  */
 interface Stock {
@@ -18,14 +13,25 @@ interface Stock {
 }
 
 /**
- * Logging utility.
+ * Logs info messages to console.
+ * @param args - Values to log.
  */
-declare const log: {
-    info: LogFn<unknown[]>;
-    error: LogFn<unknown[]>;
-    warn: LogFn<unknown[]>;
-    log: LogFn<unknown[]>;
-};
+declare function info(...args: unknown[]): void;
+/**
+ * Logs error messages to console.
+ * @param args - Values to log.
+ */
+declare function error(...args: unknown[]): void;
+/**
+ * Logs warning messages to console.
+ * @param args - Values to log.
+ */
+declare function warn(...args: unknown[]): void;
+/**
+ * Logs messages to console.
+ * @param args - Values to log.
+ */
+declare function log(...args: unknown[]): void;
 
 /**
  * Returns grow a garden stock.
@@ -33,4 +39,4 @@ declare const log: {
  */
 declare function stock(): Promise<Stock | Error>;
 
-export { type LogFn, type Stock, log, stock };
+export { type Stock, error, info, log, stock, warn };

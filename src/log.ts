@@ -1,41 +1,33 @@
-import { LogFn } from './types';
 import chalk from 'chalk';
 
 /**
- * Logging utility.
+ * Logs info messages to console.
+ * @param args - Values to log.
  */
-export const log: {
-  info: LogFn<unknown[]>;
-  error: LogFn<unknown[]>;
-  warn: LogFn<unknown[]>;
-  log: LogFn<unknown[]>;
-} = {
-  /**
-   * Logs info messages to console.
-   * @param args - Values to log.
-   */
-  info: (...args) => {
-    console.info(chalk.blue('[INFO] ', ...args));
-  },
-  /**
-   * Logs error messages to console.
-   * @param args - Values to log.
-   */
-  error: (...args) => {
-    console.error(chalk.red('[ERROR] ', ...args));
-  },
-  /**
-   * Logs warning messages to console.
-   * @param args - Values to log.
-   */
-  warn: (...args) => {
-    console.warn(chalk.yellow('[WARN] ', ...args));
-  },
-  /**
-   * Logs messages to console.
-   * @param args - Values to log.
-   */
-  log: (...args) => {
-    console.log(chalk.grey('[LOG] ', ...args));
-  }
+export function info(...args: unknown[]) {
+  console.info(chalk.blue('[INFO] ', ...args));
+}
+
+/**
+ * Logs error messages to console.
+ * @param args - Values to log.
+ */
+export function error(...args: unknown[]) {
+  console.error(chalk.red('[ERROR] ', ...args));
+}
+
+/**
+ * Logs warning messages to console.
+ * @param args - Values to log.
+ */
+export function warn(...args: unknown[]) {
+  console.warn(chalk.yellow('[WARN] ', ...args));
+}
+
+/**
+ * Logs messages to console.
+ * @param args - Values to log.
+ */
+export function log(...args: unknown[]) {
+  console.log(chalk.grey('[LOG] ', ...args));
 }
