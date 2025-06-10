@@ -1,10 +1,5 @@
+import { LogFn } from './types';
 import chalk from 'chalk';
-
-/**
- * Represents a logging function.
- * @template T - A tuple type representing the argument types.
- */
-export type LogFn<T extends unknown[]> = (...args: T) => void;
 
 /**
  * Logging utility.

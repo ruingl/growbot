@@ -9,7 +9,7 @@
     "run": "node dist/index.js",
     "dev": "tsx src/index.ts",
     "docs": "typedoc src",
-    "lint": "eslint .",
+    "lint": "eslint src",
     "build": "tsup"
   },
   "devDependencies": {

@@ -30,7 +30,8 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // src/index.ts
 var index_exports = {};
 __export(index_exports, {
-  log: () => log
+  log: () => log,
+  stock: () => stock
 });
 module.exports = __toCommonJS(index_exports);
 
@@ -67,6 +68,26 @@ var log = {
   }
 };
 
+// src/api.ts
+var import_axios = __toESM(require("axios"));
+var url = "https://growagardenstock.com";
+async function stock() {
+  try {
+    const response = await import_axios.default.get(url + "/api/stock");
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      return new Error("Failed to get stock...");
+    }
+  } catch (error) {
+    if (import_axios.default.isAxiosError(error)) {
+      return new Error(`AxiosError: ${error}`);
+    } else {
+      return new Error(`Error: ${error}`);
+    }
+  }
+}
+
 // src/main.ts
 var import_discord = require("discord.js");
 var import_dotenv = require("dotenv");
@@ -83,12 +104,24 @@ client.once("ready", () => {
 });
 client.on("messageCreate", async (message) => {
   if (message.author.bot) return;
-  if (message.content === "!ping") {
-    message.reply("Pong!");
+  if (message.content === "!stock") {
+    try {
+      const stock2 = await stock();
+      if (stock2 instanceof Error) {
+        message.reply("Can't get stock...");
+        log.error(stock2);
+      } else {
+        message.reply(stock2.seeds.join("\n"));
+      }
+    } catch (error) {
+      message.reply("Can't get stock...");
+      log.error(error);
+    }
   }
 });
 client.login(process.env.BOT_TOKEN);
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  log
+  log,
+  stock
 });

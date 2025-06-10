@@ -1,4 +1,5 @@
 import { Client, GatewayIntentBits } from 'discord.js';
+import * as api from './api';
 import { log } from './log';
 import 'dotenv';
 
@@ -17,8 +18,19 @@ client.once('ready', () => {
 client.on('messageCreate', async (message) => {
   if (message.author.bot) return;
 
-  if (message.content === '!ping') {
-    message.reply('Pong!');
+  if (message.content === '!stock') {
+    try {
+      const stock = await api.stock();
+      if (stock instanceof Error) {
+        message.reply('Can\'t get stock...');
+        log.error(stock);
+      } else {
+        message.reply(stock.seeds.join('\n'));
+      }
+    } catch (error) {
+      message.reply('Can\'t get stock...');
+      log.error(error);
+    }
   }
 });
 
